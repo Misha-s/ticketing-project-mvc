@@ -1,8 +1,11 @@
 package com.cydeo.bootstrap;
 
+import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.enums.Gender;
+import com.cydeo.enums.Status;
+import com.cydeo.service.ProjectService;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
 import com.cydeo.service.impl.RoleServiceImpl;
@@ -10,16 +13,19 @@ import com.cydeo.service.impl.UserServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 @Component
 public class DataGenerator implements CommandLineRunner {
 
     RoleService roleService;
     UserService userService;
+    ProjectService projectService;
 
-    public DataGenerator(UserService userService,RoleService roleService) {
+    public DataGenerator(UserService userService,RoleService roleService,ProjectService projectService) {
         this.userService = userService;
         this.roleService = roleService;
+        this.projectService= projectService;
     }
 
 
@@ -52,6 +58,14 @@ public class DataGenerator implements CommandLineRunner {
         userService.save(user7);
         userService.save(user8);
 
+
+        ProjectDTO project1 = new ProjectDTO("Spring MVC", "PRT001", user1, LocalDate.now(),LocalDate.now().minusDays(25),"Creating Contorllers", Status.OPEN);
+        ProjectDTO project2 = new ProjectDTO("Spring ORM", "PRT002", user3, LocalDate.now(),LocalDate.now().minusDays(15),"Creating Contorllers", Status.IN_PROGRESS);
+        ProjectDTO project3 = new ProjectDTO("Spring Container", "PRT003", user4, LocalDate.now(),LocalDate.now().minusDays(12),"Creating Contorllers", Status.IN_PROGRESS);
+
+        projectService.save(project1);
+        projectService.save(project2);
+        projectService.save(project3);
 
     }
 
